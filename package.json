@@ -1,0 +1,15 @@
+{
+  "name": "@kannan19302/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "build": "echo \"Desktop build complete\"",
+    "tauri:dev": "cargo tauri dev",
+    "tauri:build": "cargo tauri build"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
