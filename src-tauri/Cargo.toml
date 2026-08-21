@@ -1,0 +1,31 @@
+[package]
+name = "unierp-desktop"
+version = "1.0.0"
+description = "UniERP Desktop — P10, the native shell for the ten-platform business OS"
+authors = ["UniERP"]
+edition = "2021"
+
+[lib]
+name = "unierp_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-deep-link = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# OS keychain (Windows Credential Manager / macOS Keychain / Secret Service on
+# Linux) — this is what "tokens in the OS keychain" (plan, W12) actually means;
+# nothing here is written to a plain file the way flutter_secure_storage's
+# desktop backends alone would risk.
+keyring = "3"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-single-instance = "2"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

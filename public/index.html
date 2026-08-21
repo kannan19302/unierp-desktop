@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UniERP Desktop Client (P10) — Native Workstation Shell</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>UniERP Desktop</title>
   <style>
     :root {
       --bg-base: #0b0f19;
@@ -17,203 +14,87 @@
       --accent-grad: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --online: #10b981;
+      --danger: #ef4444;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       background: var(--bg-base);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-    .window-titlebar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.6rem 1.2rem;
-      background: #070a10;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      user-select: none;
+    .titlebar {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0.5rem; background: #070a10; border-bottom: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--text-muted); user-select: none;
     }
-    .window-controls { display: flex; gap: 0.5rem; }
-    .w-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-    .w-red { background: #ef4444; }
-    .w-yellow { background: #f59e0b; }
-    .w-green { background: #10b981; }
-    .app-layout {
-      display: flex;
-      flex: 1;
-    }
-    .sidebar {
-      width: 260px;
-      background: var(--bg-surface);
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
+    .center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem; width: min(420px, 100%);
+      text-align: center;
     }
     .brand-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--accent-grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 800;
+      width: 48px; height: 48px; border-radius: 10px; background: var(--accent-grad);
+      display: flex; align-items: center; justify-content: center; color: #fff;
+      font-weight: 800; margin: 0 auto 1rem;
     }
-    .nav-list { display: flex; flex-direction: column; gap: 0.35rem; list-style: none; }
-    .nav-item a {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      padding: 0.6rem 0.85rem;
-      border-radius: 6px;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.2s;
+    h1 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    p.sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+    button {
+      width: 100%; padding: 0.75rem; border: 0; border-radius: 8px;
+      background: var(--accent); color: #06131f; font-weight: 700; font-size: 0.9rem;
+      cursor: pointer;
     }
-    .nav-item a:hover, .nav-item.active a {
-      color: #fff;
-      background: var(--bg-elevated);
-      border-left: 3px solid var(--accent);
+    button:disabled { opacity: 0.6; cursor: default; }
+    button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-top: 0.75rem; }
+    .error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5;
+      padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.82rem; margin-bottom: 1rem; text-align: left; }
+    .app-shell { display: none; flex: 1; flex-direction: column; padding: 2rem; }
+    .app-shell.visible { display: flex; }
+    .center.hidden { display: none; }
+    .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .app-header h2 { font-size: 1.2rem; }
+    .app-header .user { font-size: 0.8rem; color: var(--text-muted); }
+    #signOutBtn { width: auto; padding: 0.4rem 0.9rem; font-size: 0.78rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .tile {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.25rem; text-align: left; cursor: pointer; color: var(--text);
     }
-    .main-content {
-      flex: 1;
-      padding: 2.5rem;
-      overflow-y: auto;
-    }
-    .header-group { margin-bottom: 2rem; }
-    .header-group h1 { font-size: 1.8rem; font-weight: 800; }
-    .header-group p { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
-    .card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .card-title { font-size: 1.1rem; font-weight: 700; }
-    .badge-sync {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--online);
-    }
-    .badge-sync::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--online);
-      box-shadow: 0 0 8px var(--online);
-    }
-    .btn-return {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.2rem;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #38bdf8;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-top: 1rem;
-    }
-    .btn-return:hover { background: rgba(56, 189, 248, 0.25); }
+    .tile:hover { border-color: var(--accent); background: var(--bg-elevated); }
+    .tile .name { font-weight: 700; margin-bottom: 0.25rem; }
+    .tile .code { font-size: 0.72rem; color: var(--text-muted); font-family: monospace; }
+    .empty { color: var(--text-muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
+  <div class="titlebar">UniERP Desktop (Platform 10)</div>
 
-  <!-- Mock Window Titlebar -->
-  <div class="window-titlebar">
-    <div class="window-controls">
-      <span class="w-dot w-red"></span>
-      <span class="w-dot w-yellow"></span>
-      <span class="w-dot w-green"></span>
+  <div class="center" id="loginView">
+    <div class="card">
+      <div class="brand-icon">U</div>
+      <h1>Sign in to UniERP</h1>
+      <p class="sub">One account for every UniERP platform.</p>
+      <div id="loginError" class="error" style="display:none;"></div>
+      <button id="signInBtn">Sign in with UniERP Account</button>
     </div>
-    <span>UniERP Workstation Desktop Shell (Platform 10 · Port 4010)</span>
-    <span>v1.0.0-preview</span>
   </div>
 
-  <div class="app-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-icon">P10</div>
-        <div>
-          <h3 style="font-size: 0.95rem; font-weight: 800;">Desktop App</h3>
-          <span style="font-size: 0.72rem; color: #94a3b8;">L5 Client Layer</span>
-        </div>
+  <div class="app-shell" id="appView">
+    <div class="app-header">
+      <h2>Your platforms</h2>
+      <div class="user">
+        <span id="userLabel"></span>
+        <button id="signOutBtn" class="secondary">Sign out</button>
       </div>
-
-      <ul class="nav-list">
-        <li class="nav-item active"><a href="#">📊 Workstation Overview</a></li>
-        <li class="nav-item"><a href="#">🔄 Offline Cache & Sync</a></li>
-        <li class="nav-item"><a href="#">⚡ Device Hardware Bus</a></li>
-        <li class="nav-item"><a href="#">🔒 Session & Security</a></li>
-        <li class="nav-item"><a href="http://localhost:4000">🔮 Master SSO Wizard</a></li>
-      </ul>
-    </aside>
-
-    <!-- Main Workspace -->
-    <main class="main-content">
-      <div class="header-group">
-        <h1>UniERP Native Desktop Workstation (P10)</h1>
-        <p>Heavyweight client wrapper with local SQLite offline cache, high-throughput batch operations, and background synchronization.</p>
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <span class="badge-sync">Local Sync Engine Online</span>
-          <h3 class="card-title">Offline Cache Store</h3>
-          <p style="font-size: 0.85rem; color: #94a3b8;">45 modules synchronized with local SQLite cache. Automatic bidirectional delta reconciliation when network is active.</p>
-        </div>
-
-        <div class="card">
-          <span class="badge-sync">Connected to :3001</span>
-          <h3 class="card-title">Core Backend Bridge</h3>
-          <p style="font-size: 0.85rem; color: #94a3b8;">Direct WebSockets and HTTP multiplexing to L3 API monolith with low latency stream.</p>
-        </div>
-
-        <div class="card">
-          <span class="badge-sync">SSO Active</span>
-          <h3 class="card-title">Identity &amp; Realm</h3>
-          <p style="font-size: 0.85rem; color: #94a3b8;">Authenticated via Master SSO Delegation. Tokens automatically renewed with L3 IdP.</p>
-        </div>
-      </div>
-
-      <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
-        <h3 style="margin-bottom: 0.5rem;">Multi-Platform Navigation</h3>
-        <p style="font-size: 0.9rem; color: #94a3b8;">You are running inside the Platform 10 desktop client container on port 4010. You can return to the Master SSO Platform Wizard at any time.</p>
-        <a href="http://localhost:4000" class="btn-return">
-          ← Return to Master SSO Platform Wizard (:4000)
-        </a>
-      </div>
-    </main>
+    </div>
+    <div id="platformGrid" class="grid"></div>
   </div>
 
+  <script src="oidc.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -1,15 +1,18 @@
 {
   "name": "@kannan19302/desktop",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",
-    "build": "echo \"Desktop build complete\"",
-    "tauri:dev": "cargo tauri dev",
-    "tauri:build": "cargo tauri build"
+    "build": "echo \"desktop-app has no web build step — public/ is served as-is; the native binary is built via tauri:build\"",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.0"
+  }
 }
