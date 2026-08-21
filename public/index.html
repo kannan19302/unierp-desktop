@@ -4,18 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UniERP Desktop</title>
+  <!-- The palette is GENERATED from the design system, not written here.
+       This shell used to declare its own — #0b0f19 / #38bdf8 and a two-hue
+       accent gradient — which made it a fourth colour system for one product,
+       matching no shipped theme and unable to follow any token change. It has
+       no bundler, so the tokens are generated into this directory instead of
+       imported; `pnpm build` in unierp-design-system fails if the two drift.
+       See scripts/generate-cross-platform-tokens.mjs. -->
+  <link rel="stylesheet" href="./tokens.g.css">
   <style>
-    :root {
-      --bg-base: #0b0f19;
-      --bg-surface: #111827;
-      --bg-elevated: #1e293b;
-      --border: rgba(255, 255, 255, 0.08);
-      --accent: #38bdf8;
-      --accent-grad: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --danger: #ef4444;
-    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -27,7 +24,7 @@
     }
     .titlebar {
       display: flex; align-items: center; justify-content: center;
-      padding: 0.5rem; background: #070a10; border-bottom: 1px solid var(--border);
+      padding: 0.5rem; background: var(--bg-elevated); border-bottom: 1px solid var(--border);
       font-size: 0.78rem; color: var(--text-muted); user-select: none;
     }
     .center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
@@ -38,19 +35,19 @@
     }
     .brand-icon {
       width: 48px; height: 48px; border-radius: 10px; background: var(--accent-grad);
-      display: flex; align-items: center; justify-content: center; color: #fff;
+      display: flex; align-items: center; justify-content: center; color: var(--on-accent);
       font-weight: 800; margin: 0 auto 1rem;
     }
     h1 { font-size: 1.3rem; margin-bottom: 0.4rem; }
     p.sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
     button {
       width: 100%; padding: 0.75rem; border: 0; border-radius: 8px;
-      background: var(--accent); color: #06131f; font-weight: 700; font-size: 0.9rem;
+      background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 0.9rem;
       cursor: pointer;
     }
     button:disabled { opacity: 0.6; cursor: default; }
     button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-top: 0.75rem; }
-    .error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5;
+    .error { background: var(--danger-bg); border: 1px solid var(--danger); color: var(--danger-text);
       padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.82rem; margin-bottom: 1rem; text-align: left; }
     .app-shell { display: none; flex: 1; flex-direction: column; padding: 2rem; }
     .app-shell.visible { display: flex; }

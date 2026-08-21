@@ -1,0 +1,51 @@
+/* GENERATED — DO NOT EDIT BY HAND.
+ * scripts/generate-cross-platform-tokens.mjs in unierp-design-system.
+ * The desktop shell has no bundler, so its tokens are generated rather than
+ * imported. Re-run that script after any token change.
+ */
+:root {
+  --bg-base: #f7f6f4;
+  --bg-surface: #ffffff;
+  --bg-elevated: #eeedea;
+  --border: #e2e0db;
+  --accent: #0e6b75;
+  --text: #14191b;
+  --text-muted: #4c5457;
+  --danger: #b3121f;
+  --on-accent: #ffffff;
+  --danger-bg: #fae4e6;
+  --danger-text: #7d0b15;
+  --accent-grad: var(--accent);
+}
+
+[data-theme="dark"], [data-theme="meridian-dark"] {
+  --bg-base: #14171a;
+  --bg-surface: #1c2023;
+  --bg-elevated: #0e1113;
+  --border: #2e3438;
+  --accent: #48c5ce;
+  --text: #e6e3de;
+  --text-muted: #a3a29d;
+  --danger: #e56a72;
+  --on-accent: #04262b;
+  --danger-bg: #2e1517;
+  --danger-text: #f5bcc0;
+  --accent-grad: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="meridian"]) {
+    --bg-base: #14171a;
+    --bg-surface: #1c2023;
+    --bg-elevated: #0e1113;
+    --border: #2e3438;
+    --accent: #48c5ce;
+    --text: #e6e3de;
+    --text-muted: #a3a29d;
+    --danger: #e56a72;
+    --on-accent: #04262b;
+    --danger-bg: #2e1517;
+    --danger-text: #f5bcc0;
+    --accent-grad: var(--accent);
+  }
+}
