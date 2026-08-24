@@ -6,6 +6,7 @@
   const loginError = document.getElementById("loginError");
   const signInBtn = document.getElementById("signInBtn");
   const signOutBtn = document.getElementById("signOutBtn");
+  const accountBtn = document.getElementById("accountBtn");
   const userLabel = document.getElementById("userLabel");
   const platformGrid = document.getElementById("platformGrid");
 
@@ -80,14 +81,32 @@
 
     for (const platform of platforms) {
       const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.innerHTML = `<div class="name">${platform.name}</div><div class="code">${platform.code} · :${platform.port}</div>`;
+      tile.className = platform.launchAllowed === false ? "tile disabled" : "tile";
+      tile.setAttribute("role", platform.launchAllowed === false ? "status" : "button");
+      if (platform.launchAllowed === false) tile.setAttribute("aria-disabled", "true");
+      const name = document.createElement("div");
+      name.className = "name";
+      name.textContent = platform.name;
+      const code = document.createElement("div");
+      code.className = "code";
+      code.textContent = `${platform.code} · ${platform.launchAllowed === false ? (platform.reasonCodes?.[0] || "Unavailable") : `:${platform.port}`}`;
+      tile.append(name, code);
       // Opened in the SYSTEM browser, not this webview — that's the same
       // browser the OIDC sign-in just ran in, so it already holds the SSO
       // session and lands the user straight in, no second login.
-      tile.addEventListener("click", () => {
-        openUrl(platform.baseUrl || `http://localhost:${platform.port}`);
-      });
+      if (platform.launchAllowed !== false) {
+        tile.tabIndex = 0;
+        const launch = () => {
+          openUrl(platform.baseUrl || `http://localhost:${platform.port}`);
+        };
+        tile.addEventListener("click", launch);
+        tile.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            launch();
+          }
+        });
+      }
       platformGrid.appendChild(tile);
     }
     showApp();
@@ -131,6 +150,10 @@
     showLogin();
     signInBtn.disabled = false;
     signInBtn.textContent = "Sign in with UniERP Account";
+  });
+
+  accountBtn.addEventListener("click", () => {
+    openUrl("http://localhost:3005/oidc/account");
   });
 
   // The Rust side (src-tauri/src/lib.rs) catches `unierp://auth/callback`
