@@ -3,49 +3,49 @@
  * The desktop shell has no bundler, so its tokens are generated rather than
  * imported. Re-run that script after any token change.
  */
-:root {
-  --bg-base: #f7f6f4;
+:root, [data-theme="strata"], [data-theme="meridian"] {
+  --bg-base: #f8fafc;
   --bg-surface: #ffffff;
-  --bg-elevated: #eeedea;
-  --border: #e2e0db;
-  --accent: #0e6b75;
-  --text: #14191b;
-  --text-muted: #4c5457;
-  --danger: #b3121f;
+  --bg-elevated: #f1f5f9;
+  --border: #e2e8f0;
+  --accent: #1d4ed8;
+  --text: #0f172a;
+  --text-muted: #334155;
+  --danger: #b91c1c;
   --on-accent: #ffffff;
-  --danger-bg: #fae4e6;
-  --danger-text: #7d0b15;
+  --danger-bg: #fef2f2;
+  --danger-text: #7f1d1d;
   --accent-grad: var(--accent);
 }
 
-[data-theme="dark"], [data-theme="meridian-dark"] {
-  --bg-base: #14171a;
-  --bg-surface: #1c2023;
-  --bg-elevated: #0e1113;
-  --border: #2e3438;
-  --accent: #48c5ce;
-  --text: #e6e3de;
-  --text-muted: #a3a29d;
-  --danger: #e56a72;
-  --on-accent: #04262b;
-  --danger-bg: #2e1517;
-  --danger-text: #f5bcc0;
+[data-theme="dark"], [data-theme="strata-dark"], [data-theme="meridian-dark"] {
+  --bg-base: #09090b;
+  --bg-surface: #18181b;
+  --bg-elevated: #0c0e12;
+  --border: #27272a;
+  --accent: #38bdf8;
+  --text: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --danger: #f87171;
+  --on-accent: #09090b;
+  --danger-bg: #450a0a;
+  --danger-text: #fca5a5;
   --accent-grad: var(--accent);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="meridian"]) {
-    --bg-base: #14171a;
-    --bg-surface: #1c2023;
-    --bg-elevated: #0e1113;
-    --border: #2e3438;
-    --accent: #48c5ce;
-    --text: #e6e3de;
-    --text-muted: #a3a29d;
-    --danger: #e56a72;
-    --on-accent: #04262b;
-    --danger-bg: #2e1517;
-    --danger-text: #f5bcc0;
+  :root:not([data-theme="light"]):not([data-theme="strata"]):not([data-theme="meridian"]) {
+    --bg-base: #09090b;
+    --bg-surface: #18181b;
+    --bg-elevated: #0c0e12;
+    --border: #27272a;
+    --accent: #38bdf8;
+    --text: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --danger: #f87171;
+    --on-accent: #09090b;
+    --danger-bg: #450a0a;
+    --danger-text: #fca5a5;
     --accent-grad: var(--accent);
   }
 }
