@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
-const PORT = parseInt(process.env.PORT || '4010', 10);
+const PORT = parseInt(process.env.PORT || '4007', 10);
 const HOST = process.env.HOST || '0.0.0.0';
 
 const server = http.createServer((req, res) => {
